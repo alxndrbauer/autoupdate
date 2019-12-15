@@ -1,0 +1,21 @@
+{
+  "name": "autoupdate - Node.js (TypeScript)",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+  "postCreateCommand": "npm ci",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "eg2.vscode-npm-script"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "eslint.nodePath": "/workspace/node_modules"
+      }
+    }
+  }
+}

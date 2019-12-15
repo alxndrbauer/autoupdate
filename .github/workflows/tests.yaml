@@ -1,0 +1,21 @@
+name: Tests
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@vv
+      - name: Set up Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Install dependencies
+        run: yarn install --dev
+      - name: Lint files
+        run: yarn run lint
+      - name: Run tests
+        run: yarn run test
+        env:
+          CI: true
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
