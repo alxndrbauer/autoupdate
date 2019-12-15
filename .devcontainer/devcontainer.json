@@ -1,0 +1,20 @@
+{
+  "name": "autoupdate - Node.js (TypeScript)",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:dev-24",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+  "postCreateCommand": "yarn install --frozen-lockfile",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "eslint.nodePath": "/workspace/node_modules"
+      }
+    }
+  }
+}
