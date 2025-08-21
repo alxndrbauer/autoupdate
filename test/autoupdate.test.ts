@@ -369,8 +369,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue(['three', 'four']);
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-  const scope = nock('https://api.github.com')
-  .get((uri) => uri.includes('/compare/'))
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes('/compare/'))
       .reply(200, {
         behind_by: 1,
       });
@@ -393,13 +393,13 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('protected');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-  const comparePr = nock('https://api.github.com')
-  .get((uri) => uri.includes('/compare/'))
+    const comparePr = nock('https://api.github.com')
+      .get((uri) => uri.includes('/compare/'))
       .reply(200, {
         behind_by: 1,
       });
 
-  const getBranch = nock('https://api.github.com')
+    const getBranch = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/branches/${base}`)
       .reply(200, {
         protected: true,
@@ -421,13 +421,13 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('protected');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-  const comparePr = nock('https://api.github.com')
-  .get((uri) => uri.includes('/compare/'))
+    const comparePr = nock('https://api.github.com')
+      .get((uri) => uri.includes('/compare/'))
       .reply(200, {
         behind_by: 1,
       });
 
-  const getBranch = nock('https://api.github.com')
+    const getBranch = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/branches/${base}`)
       .reply(200, {
         protected: false,
@@ -449,7 +449,7 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('auto_merge');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-  const comparePr = nock('https://api.github.com')
+    const comparePr = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
       .reply(200, {
         behind_by: 1,
@@ -479,7 +479,7 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('auto_merge');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-  const comparePr = nock('https://api.github.com')
+    const comparePr = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
       .reply(200, {
         behind_by: 1,
@@ -524,8 +524,8 @@ describe('test `prNeedsUpdate`', () => {
     const draftPull = Object.assign(clonePull(), { draft: true });
 
     const nockCompareRequest = () =>
-  nock('https://api.github.com')
-  .get((uri) => uri.includes('/compare/'))
+      nock('https://api.github.com')
+        .get((uri) => uri.includes('/compare/'))
         .reply(200, {
           behind_by: 1,
         });
@@ -614,7 +614,11 @@ describe('test `handlePush`', () => {
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
     const scope = nock('https://api.github.com')
-      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
+      .get(
+        (uri) =>
+          uri.includes(`/repos/${owner}/${repo}/pulls`) &&
+          uri.includes('base='),
+      )
       .reply(200, []);
 
     const updated = await updater.handlePush();
@@ -639,7 +643,11 @@ describe('test `handlePush`', () => {
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
     const scope = nock('https://api.github.com')
-      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
+      .get(
+        (uri) =>
+          uri.includes(`/repos/${owner}/${repo}/pulls`) &&
+          uri.includes('base='),
+      )
       .reply(200, pullsMock);
 
     const updated = await updater.handlePush();
@@ -712,7 +720,7 @@ describe('test `handleSchedule`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-  const scope = nock('https://api.github.com')
+    const scope = nock('https://api.github.com')
       .get(
         `/repos/${owner}/${repo}/pulls?base=${base}&state=open&sort=updated&direction=desc`,
       )
@@ -779,7 +787,11 @@ describe('test `handleWorkflowDispatch`', () => {
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
     const scope = nock('https://api.github.com')
-      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
+      .get(
+        (uri) =>
+          uri.includes(`/repos/${owner}/${repo}/pulls`) &&
+          uri.includes('base='),
+      )
       .reply(200, pullsMock);
 
     const updated = await updater.handleWorkflowDispatch();
@@ -813,7 +825,7 @@ describe('test `handleWorkflowRun`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-  const scope = nock('https://api.github.com')
+    const scope = nock('https://api.github.com')
       .get(
         `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
       )
@@ -840,7 +852,7 @@ describe('test `handleWorkflowRun`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-  const scope = nock('https://api.github.com')
+    const scope = nock('https://api.github.com')
       .get(
         `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
       )
@@ -920,6 +932,22 @@ describe('test `handleWorkflowRun`', () => {
 });
 
 describe('test `handlePullRequest`', () => {
+  test('pull request event with null head repo', async () => {
+    // Create a PR event where head.repo is null (e.g., fork was deleted)
+    const event = createMock<PullRequestEvent>({
+      pull_request: {
+        head: { repo: null },
+      },
+    });
+    const updater = new AutoUpdater(config, event);
+
+    const updateSpy = jest.spyOn(updater, 'update');
+    const updated = await updater.handlePullRequest();
+
+    expect(updated).toEqual(false);
+    expect(updateSpy).not.toHaveBeenCalled();
+  });
+
   test('pull request event with an update triggered', async () => {
     const updater = new AutoUpdater(config, createMock<PullRequestEvent>());
 
@@ -1279,7 +1307,11 @@ describe('test `merge`', () => {
       .mockResolvedValue(true);
 
     const pullsScope = nock('https://api.github.com')
-      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
+      .get(
+        (uri) =>
+          uri.includes(`/repos/${owner}/${repo}/pulls`) &&
+          uri.includes('base='),
+      )
       .reply(200, pullsMock);
 
     const mergeScopes = [];
@@ -1301,7 +1333,7 @@ describe('test `merge`', () => {
       }
 
       mergeScopes.push(
-  nock('https://api.github.com')
+        nock('https://api.github.com')
           .post(`/repos/${owner}/${repo}/merges`)
           .reply(httpStatus, response),
       );

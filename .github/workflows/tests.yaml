@@ -4,13 +4,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@vv
-      - name: Set up Node.js 18.x
+      - uses: actions/checkout@v4
+      - name: Set up Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 24.x
       - name: Install dependencies
-        run: yarn install --dev
+        run: yarn install
       - name: Lint files
         run: yarn run lint
       - name: Run tests
