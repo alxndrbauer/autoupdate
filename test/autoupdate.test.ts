@@ -29,9 +29,9 @@ beforeEach(() => {
 });
 
 const emptyEvent = {} as WebhookEvent;
-const owner = 'chinthakagodawita';
+const owner = 'alxndrbauer';
 const repo = 'not-a-real-repo';
-const base = 'master';
+const base = 'main';
 const head = 'develop';
 const branch = 'not-a-real-branch';
 
@@ -178,8 +178,8 @@ describe('test `prNeedsUpdate`', () => {
   });
 
   test('pull request is not behind', async () => {
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare/`))
       .reply(200, {
         behind_by: 0,
       });
@@ -197,8 +197,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('all');
     (config.excludedLabels as jest.Mock).mockReturnValue(['label']);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare/`))
       .reply(200, {
         behind_by: 1,
       });
@@ -219,8 +219,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue([]);
     (config.excludedLabels as jest.Mock).mockReturnValue(['dependencies']);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare/`))
       .reply(200, {
         behind_by: 1,
       });
@@ -254,8 +254,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue([]);
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare/`))
       .reply(200, {
         behind_by: 1,
       });
@@ -277,8 +277,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue(['one', 'two']);
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare`))
       .reply(200, {
         behind_by: 1,
       });
@@ -300,8 +300,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue(['one', 'two']);
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare`))
       .reply(200, {
         behind_by: 1,
       });
@@ -323,8 +323,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue([]);
     (config.excludedLabels as jest.Mock).mockReturnValue(['one', 'two']);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare`))
       .reply(200, {
         behind_by: 1,
       });
@@ -346,8 +346,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue(['three', 'four']);
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/compare`))
       .reply(200, {
         behind_by: 1,
       });
@@ -369,8 +369,8 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestLabels as jest.Mock).mockReturnValue(['three', 'four']);
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const scope = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+  const scope = nock('https://api.github.com')
+  .get((uri) => uri.includes('/compare/'))
       .reply(200, {
         behind_by: 1,
       });
@@ -393,13 +393,13 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('protected');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const comparePr = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+  const comparePr = nock('https://api.github.com')
+  .get((uri) => uri.includes('/compare/'))
       .reply(200, {
         behind_by: 1,
       });
 
-    const getBranch = nock('https://api.github.com:443')
+  const getBranch = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/branches/${base}`)
       .reply(200, {
         protected: true,
@@ -421,13 +421,13 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('protected');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const comparePr = nock('https://api.github.com:443')
-      .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+  const comparePr = nock('https://api.github.com')
+  .get((uri) => uri.includes('/compare/'))
       .reply(200, {
         behind_by: 1,
       });
 
-    const getBranch = nock('https://api.github.com:443')
+  const getBranch = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/branches/${base}`)
       .reply(200, {
         protected: false,
@@ -449,7 +449,7 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('auto_merge');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const comparePr = nock('https://api.github.com:443')
+  const comparePr = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
       .reply(200, {
         behind_by: 1,
@@ -479,7 +479,7 @@ describe('test `prNeedsUpdate`', () => {
     (config.pullRequestFilter as jest.Mock).mockReturnValue('auto_merge');
     (config.excludedLabels as jest.Mock).mockReturnValue([]);
 
-    const comparePr = nock('https://api.github.com:443')
+  const comparePr = nock('https://api.github.com')
       .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
       .reply(200, {
         behind_by: 1,
@@ -524,8 +524,8 @@ describe('test `prNeedsUpdate`', () => {
     const draftPull = Object.assign(clonePull(), { draft: true });
 
     const nockCompareRequest = () =>
-      nock('https://api.github.com:443')
-        .get(`/repos/${owner}/${repo}/compare/${head}...${base}`)
+  nock('https://api.github.com')
+  .get((uri) => uri.includes('/compare/'))
         .reply(200, {
           behind_by: 1,
         });
@@ -613,10 +613,8 @@ describe('test `handlePush`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-    const scope = nock('https://api.github.com:443')
-      .get(
-        `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
-      )
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
       .reply(200, []);
 
     const updated = await updater.handlePush();
@@ -640,10 +638,8 @@ describe('test `handlePush`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-    const scope = nock('https://api.github.com:443')
-      .get(
-        `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
-      )
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
       .reply(200, pullsMock);
 
     const updated = await updater.handlePush();
@@ -716,7 +712,7 @@ describe('test `handleSchedule`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-    const scope = nock('https://api.github.com:443')
+  const scope = nock('https://api.github.com')
       .get(
         `/repos/${owner}/${repo}/pulls?base=${base}&state=open&sort=updated&direction=desc`,
       )
@@ -782,10 +778,8 @@ describe('test `handleWorkflowDispatch`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-    const scope = nock('https://api.github.com:443')
-      .get(
-        `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
-      )
+    const scope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
       .reply(200, pullsMock);
 
     const updated = await updater.handleWorkflowDispatch();
@@ -819,7 +813,7 @@ describe('test `handleWorkflowRun`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-    const scope = nock('https://api.github.com:443')
+  const scope = nock('https://api.github.com')
       .get(
         `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
       )
@@ -846,7 +840,7 @@ describe('test `handleWorkflowRun`', () => {
 
     const updateSpy = jest.spyOn(updater, 'update').mockResolvedValue(true);
 
-    const scope = nock('https://api.github.com:443')
+  const scope = nock('https://api.github.com')
       .get(
         `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
       )
@@ -1284,10 +1278,8 @@ describe('test `merge`', () => {
       .spyOn(updater, 'prNeedsUpdate')
       .mockResolvedValue(true);
 
-    const pullsScope = nock('https://api.github.com:443')
-      .get(
-        `/repos/${owner}/${repo}/pulls?base=${branch}&state=open&sort=updated&direction=desc`,
-      )
+    const pullsScope = nock('https://api.github.com')
+      .get((uri) => uri.includes(`/repos/${owner}/${repo}/pulls`) && uri.includes('base='))
       .reply(200, pullsMock);
 
     const mergeScopes = [];
@@ -1309,7 +1301,7 @@ describe('test `merge`', () => {
       }
 
       mergeScopes.push(
-        nock('https://api.github.com:443')
+  nock('https://api.github.com')
           .post(`/repos/${owner}/${repo}/merges`)
           .reply(httpStatus, response),
       );
