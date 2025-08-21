@@ -1,9 +1,9 @@
 {
   "name": "autoupdate - Node.js (TypeScript)",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:dev-24",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
-  "postCreateCommand": "npm ci",
+  "postCreateCommand": "yarn install --frozen-lockfile",
   "customizations": {
     "vscode": {
       "extensions": [

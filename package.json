@@ -1,9 +1,9 @@
 {
   "name": "autoupdate-action",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "A GitHub Action that auto-updates PRs with changes from their base branch.",
   "main": "src/autoupdater.ts",
-  "repository": "https://github.com/chinthakagodawita/autoupdate",
+  "repository": "https://github.com/alxndrbauer/autoupdate",
   "author": "Chin Godawita <chin.godawita@me.com>",
   "license": "MIT",
   "bin": {
@@ -24,7 +24,7 @@
     "@octokit/webhooks-types": "^7.6.1",
     "@types/node": "^24.3.0",
     "@vercel/ncc": "^0.38.3",
-    "ttypescript": "^1.5.15",
+    "ts-patch": "^3.3.0",
     "typescript": "^5.9.2"
   },
   "devDependencies": {

@@ -9,12 +9,14 @@ module.exports = {
   ],
   "testEnvironment": "node",
   "transform": {
-    ".(ts|tsx)": [
+    "^.+\\.(ts|tsx)$": [
       "ts-jest",
       {
-        tsconfig: "tsconfig.tests.json",
-        compiler: "ttypescript",
+        tsconfig: "tsconfig.tests.json"
       }
     ]
+  },
+  "moduleNameMapper": {
+    "^ts-auto-mock$": "<rootDir>/test/helpers/ts-auto-mock-shim.js"
   },
 }

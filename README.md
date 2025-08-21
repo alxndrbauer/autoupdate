@@ -156,3 +156,12 @@ Here's a screenshot:
     > An action in a workflow run can't trigger a new workflow run. For example, if an action pushes code using the repository's GITHUB_TOKEN, a new workflow will not run even when the repository contains a workflow configured to run when push events occur.
   - There is [an open issue in the Github community forum](https://github.com/orgs/community/discussions/43427) tracking this
 
+
+  ## Developer notes (tests)
+
+  - Tests now run under TypeScript 5.x without requiring the ts-auto-mock AST transformer.
+  - A runtime shim (`test/helpers/ts-auto-mock-shim.js`) is used to provide safe mock objects for fixtures created with `createMock()` in tests.
+  - The test suite also provides a lightweight fake `getOctokit()` (in `test/config.ts`) which issues HTTP requests that are intercepted by `nock` in tests; this avoids depending on the full Octokit implementation while still allowing HTTP-level assertions.
+
+  If you prefer a fully stubbed Octokit instead of the HTTP-based fake, I can replace it with deterministic canned responses.
+

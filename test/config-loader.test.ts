@@ -94,6 +94,43 @@ const tests = [
   },
 ];
 
+describe('message handling edge cases', () => {
+  test('mergeMsg and conflictMsg with null/undefined input', () => {
+    const loader = new ConfigLoader();
+    const env: { MERGE_MSG?: string | null; CONFLICT_MSG?: string | null } = {
+      MERGE_MSG: null,
+      CONFLICT_MSG: null,
+    };
+    Object.defineProperty(loader, 'env', { value: env });
+
+    expect(loader.mergeMsg()).toBeNull();
+    expect(loader.conflictMsg()).toBeNull();
+
+    delete env.MERGE_MSG;
+    delete env.CONFLICT_MSG;
+    expect(loader.mergeMsg()).toBeNull();
+    expect(loader.conflictMsg()).toBeNull();
+
+    // Test undefined values
+    env.MERGE_MSG = undefined;
+    env.CONFLICT_MSG = undefined;
+    expect(loader.mergeMsg()).toBeNull();
+    expect(loader.conflictMsg()).toBeNull();
+
+    // Test empty strings
+    env.MERGE_MSG = '';
+    env.CONFLICT_MSG = '';
+    expect(loader.mergeMsg()).toBeNull();
+    expect(loader.conflictMsg()).toBeNull();
+
+    // Test whitespace strings
+    env.MERGE_MSG = '   ';
+    env.CONFLICT_MSG = '   ';
+    expect(loader.mergeMsg()).toBeNull();
+    expect(loader.conflictMsg()).toBeNull();
+  });
+});
+
 for (const testDef of tests) {
   test(`test that '${testDef.name}' returns the correct environment value`, () => {
     // All environment variables are technically strings.

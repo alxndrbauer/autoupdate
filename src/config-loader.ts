@@ -37,14 +37,22 @@ export class ConfigLoader {
     return rawLabels.split(',').map((label: string) => label.trim());
   }
 
-  mergeMsg(): string {
-    const msg = this.getValue('MERGE_MSG', false, '').toString().trim();
-    return msg === null ? '' : msg;
+  mergeMsg(): string | null {
+    const raw = this.getValue('MERGE_MSG', false, '');
+
+    const msg =
+      raw === null || raw === undefined ? null : raw.toString().trim();
+
+    return msg === '' ? null : msg;
   }
 
-  conflictMsg(): string {
-    const msg = this.getValue('CONFLICT_MSG', false, '').toString().trim();
-    return msg === null ? '' : msg;
+  conflictMsg(): string | null {
+    const raw = this.getValue('CONFLICT_MSG', false, '');
+
+    const msg =
+      raw === null || raw === undefined ? null : raw.toString().trim();
+
+    return msg === '' ? null : msg;
   }
 
   retryCount(): number {
