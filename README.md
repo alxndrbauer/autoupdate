@@ -156,12 +156,3 @@ Here's a screenshot:
     > An action in a workflow run can't trigger a new workflow run. For example, if an action pushes code using the repository's GITHUB_TOKEN, a new workflow will not run even when the repository contains a workflow configured to run when push events occur.
   - There is [an open issue in the Github community forum](https://github.com/orgs/community/discussions/43427) tracking this
 
-## Coming soon
-
-- Rebase support
-- Token support in custom merge messages
-
-## Also see
-
-- [automerge](https://github.com/pascalgn/automerge-action/) for automatic merging of PRs
-- [autosquash](https://github.com/tibdex/autosquash) for auto-merging with squash support
