@@ -54,6 +54,10 @@ export class AutoUpdater {
 
     ghCore.info(`Handling pull_request event triggered by action '${action}'`);
 
+    if (!pull_request.head.repo) {
+      ghCore.error('pull_request.head.repo is null, cannot update.');
+      return false;
+    }
     const isUpdated = await this.update(
       pull_request.head.repo.owner.login,
       pull_request,
@@ -226,7 +230,7 @@ export class AutoUpdater {
       head: baseRef,
     };
 
-    if (mergeMsg !== null && mergeMsg.length > 0) {
+    if (mergeMsg.length > 0) {
       mergeOpts.commit_message = mergeMsg;
     }
 

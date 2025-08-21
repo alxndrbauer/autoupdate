@@ -39,12 +39,12 @@ export class ConfigLoader {
 
   mergeMsg(): string {
     const msg = this.getValue('MERGE_MSG', false, '').toString().trim();
-    return msg === '' ? null : msg;
+    return msg === null ? '' : msg;
   }
 
   conflictMsg(): string {
     const msg = this.getValue('CONFLICT_MSG', false, '').toString().trim();
-    return msg === '' ? null : msg;
+    return msg === null ? '' : msg;
   }
 
   retryCount(): number {
