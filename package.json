@@ -22,7 +22,7 @@
     "@octokit/types": "^9.0.0",
     "@octokit/webhooks": "^10.9.2",
     "@octokit/webhooks-types": "^7.6.1",
-    "@types/node": "^18.15.10",
+    "@types/node": "^24.3.0",
     "@vercel/ncc": "^0.36.1",
     "ttypescript": "^1.5.15",
     "typescript": "^5.9.2"
