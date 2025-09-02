@@ -2,7 +2,7 @@ name: autoupdate scheduled
 
 on:
   schedule:
-    - cron: '20 12 * * *' 
+    - cron: '30 12 * * *' 
 jobs:
   autoupdate:
     runs-on: ubuntu-latest
