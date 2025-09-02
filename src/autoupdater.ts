@@ -76,7 +76,6 @@ export class AutoUpdater {
   }
 
   async handleSchedule(): Promise<number> {
-    const ref = this.config.githubRef();
     const ownerAndRepo = this.config.githubRepository();
 
     const splitRepoName = ownerAndRepo.split('/');
@@ -89,9 +88,29 @@ export class AutoUpdater {
     const repoOwner = splitRepoName[0];
     const repoName = splitRepoName[1];
 
-    ghCore.info(`Handling schedule event on '${ref}'`);
+    // Support multiple branches via SCHEDULE_BRANCHES (comma-separated). If
+    // not provided, fall back to the single GITHUB_REF value for backwards
+    // compatibility.
+    const scheduleBranches = this.config.scheduleBranches();
 
-    return await this.pulls(ref, repoName, repoOwner);
+    if (!scheduleBranches || scheduleBranches.length === 0) {
+      const ref = this.config.githubRef();
+      ghCore.info(`Handling schedule event on '${ref}'`);
+
+      return await this.pulls(ref, repoName, repoOwner);
+    }
+
+    ghCore.info(
+      `Handling schedule event for branches: ${scheduleBranches.join(', ')}`,
+    );
+
+    let totalUpdated = 0;
+    for (const branch of scheduleBranches) {
+      const ref = `refs/heads/${branch}`;
+      totalUpdated += await this.pulls(ref, repoName, repoOwner);
+    }
+
+    return totalUpdated;
   }
 
   async handleWorkflowRun(): Promise<number> {
