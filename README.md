@@ -157,7 +157,7 @@ Here's a screenshot:
   - There is [an open issue in the Github community forum](https://github.com/orgs/community/discussions/43427) tracking this
 
 
-  ## Developer notes (tests)
+## Developer notes (tests)
 
   - Tests now run under TypeScript 5.x without requiring the ts-auto-mock AST transformer.
   - A runtime shim (`test/helpers/ts-auto-mock-shim.js`) is used to provide safe mock objects for fixtures created with `createMock()` in tests.
