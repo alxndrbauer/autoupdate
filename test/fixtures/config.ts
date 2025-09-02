@@ -16,7 +16,6 @@ export interface TestConfig {
   githubRef?: jest.Mock;
   pullRequestReadyState?: jest.Mock;
   githubToken?: jest.Mock;
-  scheduleBranches?: jest.Mock;
 }
 
 export const createTestConfig = (overrides: TestConfig = {}) => {
@@ -34,7 +33,6 @@ export const createTestConfig = (overrides: TestConfig = {}) => {
     githubRef: jest.fn(),
     pullRequestReadyState: jest.fn(),
     githubToken: jest.fn(),
-    scheduleBranches: jest.fn(),
     ...overrides,
   };
 
@@ -48,7 +46,6 @@ export const createTestConfig = (overrides: TestConfig = {}) => {
   config.mergeConflictAction.mockReturnValue(null);
   config.pullRequestReadyState.mockReturnValue('all');
   config.githubToken.mockReturnValue('dummy-token');
-  config.scheduleBranches.mockReturnValue([]);
 
   return config as unknown as ConfigLoader;
 };
