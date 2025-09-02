@@ -1,7 +1,5 @@
 name: autoupdate scheduled
-permissions:
-  contents: write        # nötig für merge / update branches
-  pull-requests: write 
+
 on:
   schedule:
     - cron: '20 12 * * *' 
