@@ -40,6 +40,8 @@ export class AutoUpdater {
     const { ref, repository } = this.eventData as PushEvent;
 
     ghCore.info(`Handling push event on ref '${ref}'`);
+    ghCore.info(`Repository is ${repository.full_name}`);
+    ghCore.info(`Token is ${this.config.githubToken().substring(0, 4)}***`);
 
     return await this.pulls(
       ref,
