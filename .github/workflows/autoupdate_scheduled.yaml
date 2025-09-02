@@ -1,10 +1,8 @@
 name: autoupdate scheduled
-permissions:
-  contents: write        # nötig für merge / update branches
-  pull-requests: write 
+
 on:
-  scheduled:
-    - cron: '48 13 * * *' 
+  schedule:
+    - cron: '20 12 * * *' 
 jobs:
   autoupdate:
     runs-on: ubuntu-latest
