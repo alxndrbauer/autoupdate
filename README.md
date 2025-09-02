@@ -87,6 +87,20 @@ All configuration values, except `GITHUB_TOKEN`, are optional.
   - `"fail"` (default): _autoupdate_ will report a failure on each PR that has a merge conflict.
   - `"ignore"`: _autoupdate_ will silently ignore merge conflicts.
 
+- `SCHEDULE_BRANCHES`: When the action is triggered via a `schedule` event you may want
+  to target more than one branch. Set this to a comma-separated list of branch names
+  (for example `main,develop,release/1.0`). If this variable is not set the action
+  will fallback to the single `GITHUB_REF` value (backwards compatible).
+
+  Example:
+
+```yaml
+      - uses: docker://chinthakagodawita/autoupdate-action:v1
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          SCHEDULE_BRANCHES: "main,develop,release/1.0"
+```
+
 Here's an example workflow file with all of the above options specified:
 
 ```yaml
@@ -109,20 +123,6 @@ jobs:
           RETRY_COUNT: "5"
           RETRY_SLEEP: "300"
           MERGE_CONFLICT_ACTION: "fail"
-```
-
-- `SCHEDULE_BRANCHES`: When the action is triggered via a `schedule` event you may want
-  to target more than one branch. Set this to a comma-separated list of branch names
-  (for example `main,develop,release/1.0`). If this variable is not set the action
-  will fallback to the single `GITHUB_REF` value (backwards compatible).
-
-  Example:
-
-```yaml
-      - uses: docker://chinthakagodawita/autoupdate-action:v1
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          SCHEDULE_BRANCHES: "main,develop,release/1.0"
 ```
 
 ## Outputs
