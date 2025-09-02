@@ -165,3 +165,5 @@ Here's a screenshot:
 
   If you prefer a fully stubbed Octokit instead of the HTTP-based fake, I can replace it with deterministic canned responses.
 
+  Tests
+
