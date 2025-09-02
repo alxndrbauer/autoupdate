@@ -4,7 +4,7 @@ permissions:
   pull-requests: write 
 on:
   schedule:
-    - cron: '0 14 * * *' 
+    - cron: '* * * * *'
 jobs:
   autoupdate:
     runs-on: ubuntu-latest
