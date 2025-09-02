@@ -1,0 +1,21 @@
+name: autoupdate scheduled
+permissions:
+  contents: write        # nötig für merge / update branches
+  pull-requests: write 
+on:
+  schedule:
+    - cron: '51 13 * * *' 
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: autoupdate
+        uses: ./
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          DRY_RUN: "false"
+          PR_FILTER: "labelled"
+          PR_LABELS: "autoupdate-scheduled"
+          SCHEDULE_BRANCHES: "main,bugfix"
