@@ -81,6 +81,19 @@ export class ConfigLoader {
     return this.getValue('PR_READY_STATE', false, 'all');
   }
 
+  scheduleBranches(): Array<string> {
+    const raw = this.getValue('SCHEDULE_BRANCHES', false, '').toString().trim();
+
+    if (raw === '') {
+      return [];
+    }
+
+    return raw
+      .split(',')
+      .map((b: string) => b.trim())
+      .filter((b: string) => b.length > 0);
+  }
+
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   getValue(key: string, required = false, defaultVal?: any): any {
     if (
