@@ -12,16 +12,17 @@ module.exports = [
 						parserOptions: {
 							ecmaVersion: 2020,
 							sourceType: 'module',
-						project: ['./tsconfig.json', './tsconfig.tests.json', './new-tests/tsconfig.new-tests.json'],
+						project: ['./tsconfig.json', './tsconfig.tests.json'],
 						},
 				globals: {
-				// Jest globals
+				// Vitest globals
 				describe: 'readonly',
+				it: 'readonly',
 				test: 'readonly',
 				expect: 'readonly',
 				beforeEach: 'readonly',
 				afterEach: 'readonly',
-				jest: 'readonly',
+				vi: 'readonly',
 				// Node globals commonly used
 				process: 'readonly',
 				Buffer: 'readonly',
@@ -29,7 +30,6 @@ module.exports = [
 		},
 		plugins: {
 			'@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-			jest: require('eslint-plugin-jest'),
 		},
 		rules: {
 			// Mirror key rules from .eslintrc.yml so behavior is consistent

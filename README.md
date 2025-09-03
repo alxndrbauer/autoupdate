@@ -173,9 +173,10 @@ Here's a screenshot:
 
   ## Developer notes (tests)
 
-  - Tests now run under TypeScript 5.x without requiring the ts-auto-mock AST transformer.
-  - A runtime shim (`test/helpers/ts-auto-mock-shim.js`) is used to provide safe mock objects for fixtures created with `createMock()` in tests.
-  - The test suite also provides a lightweight fake `getOctokit()` (in `test/config.ts`) which issues HTTP requests that are intercepted by `nock` in tests; this avoids depending on the full Octokit implementation while still allowing HTTP-level assertions.
-
-  If you prefer a fully stubbed Octokit instead of the HTTP-based fake, I can replace it with deterministic canned responses.
+  - The project has migrated from Jest to Vitest. All tests live under `test/` (unit + integration + property-based).
+  - Coverage is enforced at 100% for lines/statements/functions and 98% for branches (defensive null guards create non-meaningful branch misses).
+  - MSW is used to mock GitHub API HTTP interactions; Octokit methods are normally spied/stubbed directly where simpler.
+  - Property-based tests (fast-check) exercise the configuration loader against a wide range of generated inputs.
+  - Run the full suite with `npm test`, or focused groups: `npm run test:unit`, `npm run test:integration`, watch mode with `npm run test:watch`.
+  - If adding new files under `src/`, ensure they are included by the coverage config (`vitest.config.ts`).
 
