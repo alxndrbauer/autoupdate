@@ -111,6 +111,20 @@ jobs:
           MERGE_CONFLICT_ACTION: "fail"
 ```
 
+- `SCHEDULE_BRANCHES`: When the action is triggered via a `schedule` event you may want
+  to target more than one branch. Set this to a comma-separated list of branch names
+  (for example `main,develop,release/1.0`). If this variable is not set the action
+  will fallback to the single `GITHUB_REF` value (backwards compatible).
+
+  Example:
+
+```yaml
+      - uses: docker://chinthakagodawita/autoupdate-action:v1
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          SCHEDULE_BRANCHES: "main,develop,release/1.0"
+```
+
 ## Outputs
 
 | Name         | Description                                                                 |
