@@ -3,7 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/typescript-node:dev-24",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
-  "postCreateCommand": "yarn install --frozen-lockfile",
+  "postCreateCommand": "npm ci",
   "customizations": {
     "vscode": {
       "extensions": [

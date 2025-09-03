@@ -10,11 +10,11 @@ jobs:
         with:
           node-version: 24.x
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
       - name: Lint files
-        run: yarn run lint
+        run: npm run lint
       - name: Run tests
-        run: yarn run test
+        run: npm test
         env:
           CI: true
       - name: Upload coverage

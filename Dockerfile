@@ -6,7 +6,7 @@ WORKDIR /opt/autoupdate
 
 COPY . /opt/autoupdate/
 
-RUN yarn install --immutable --production=true && yarn run build
+RUN npm ci --omit=dev && npm run build
 
 FROM node:24-alpine as runner
 
