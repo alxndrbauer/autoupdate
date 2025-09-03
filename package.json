@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "tsc bin/cli.ts --outDir dist",
-  "lint": "eslint . && prettier --list-different bin/*.ts src/*.ts test/**/*.ts",
+  "lint": "eslint --ignore-pattern coverage --ignore-pattern dist . && prettier --list-different bin/*.ts src/*.ts test/**/*.ts",
     "lint:fix": "eslint --fix .",
     "test": "vitest run --coverage",
     "test:watch": "vitest --watch",
@@ -32,8 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
     "eslint": "^9.34.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
+  "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
   "vitest": "^1.6.0",

@@ -28,7 +28,11 @@ describe('ConfigLoader remaining methods', () => {
 
   it('mergeMsg and conflictMsg return trimmed strings', () => {
     const c = new ConfigLoader();
-    c.env = { MERGE_MSG: '  hello  ', CONFLICT_MSG: ' world ', GITHUB_TOKEN: 't' } as any;
+    c.env = {
+      MERGE_MSG: '  hello  ',
+      CONFLICT_MSG: ' world ',
+      GITHUB_TOKEN: 't',
+    } as any;
     expect(c.mergeMsg()).toBe('hello');
     expect(c.conflictMsg()).toBe('world');
   });

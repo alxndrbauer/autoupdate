@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { isRequestError } from '../../src/helpers/isRequestError';
 
-class CustomErr extends Error { status?: number }
+class CustomErr extends Error {
+  status?: number;
+}
 
 describe('isRequestError', () => {
   it('returns true for error with numeric status', () => {

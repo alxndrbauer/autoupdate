@@ -5,14 +5,22 @@ import { Output } from '../../src/Output';
 
 function mkCfg(): ConfigLoader {
   const c = new ConfigLoader();
-  c.env = { GITHUB_TOKEN: 't', GITHUB_REF: 'refs/heads/main', GITHUB_REPOSITORY: 'o/r' } as any;
+  c.env = {
+    GITHUB_TOKEN: 't',
+    GITHUB_REF: 'refs/heads/main',
+    GITHUB_REPOSITORY: 'o/r',
+  } as any;
   return c;
 }
 
 function mkPull(): any {
   return {
     number: 7,
-    head: { ref: 'feature', label: 'feature', repo: { owner: { login: 'o' }, name: 'r' } },
+    head: {
+      ref: 'feature',
+      label: 'feature',
+      repo: { owner: { login: 'o' }, name: 'r' },
+    },
     base: { ref: 'main', label: 'main' },
   };
 }
@@ -22,10 +30,19 @@ describe('AutoUpdater.merge', () => {
     const cfg = mkCfg();
     (cfg as any).retryCount = () => 0;
     const updater = new AutoUpdater(cfg, {} as any);
-    const mergeFn = vi.fn().mockResolvedValue({ status: 200, data: { sha: 'abc' } });
+    const mergeFn = vi
+      .fn()
+      .mockResolvedValue({ status: 200, data: { sha: 'abc' } });
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
     const outputs: Record<string, any> = {};
-    const ok = await updater.merge('o', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' }, (k, v) => { outputs[k] = v; });
+    const ok = await updater.merge(
+      'o',
+      7,
+      { owner: 'o', repo: 'r', base: 'feature', head: 'main' },
+      (k, v) => {
+        outputs[k] = v;
+      },
+    );
     expect(ok).toBe(true);
     expect(outputs[Output.Conflicted]).toBe(false);
   });
@@ -34,10 +51,19 @@ describe('AutoUpdater.merge', () => {
     const cfg = mkCfg();
     (cfg as any).retryCount = () => 0;
     const updater = new AutoUpdater(cfg, {} as any);
-    const mergeFn = vi.fn().mockResolvedValue({ status: 204, data: { sha: 'abc' } });
+    const mergeFn = vi
+      .fn()
+      .mockResolvedValue({ status: 204, data: { sha: 'abc' } });
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
     const outputs: Record<string, any> = {};
-    const ok = await updater.merge('o', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' }, (k, v) => { outputs[k] = v; });
+    const ok = await updater.merge(
+      'o',
+      7,
+      { owner: 'o', repo: 'r', base: 'feature', head: 'main' },
+      (k, v) => {
+        outputs[k] = v;
+      },
+    );
     expect(ok).toBe(true);
   });
 
@@ -45,11 +71,19 @@ describe('AutoUpdater.merge', () => {
     const cfg = mkCfg();
     (cfg as any).retryCount = () => 0;
     const updater = new AutoUpdater(cfg, {} as any);
-    const err: any = new Error('no access'); err.status = 403;
+    const err: any = new Error('no access');
+    err.status = 403;
     const mergeFn = vi.fn().mockRejectedValue(err);
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
     const outputs: Record<string, any> = {};
-    const ok = await updater.merge('someoneelse', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' }, (k, v) => { outputs[k] = v; });
+    const ok = await updater.merge(
+      'someoneelse',
+      7,
+      { owner: 'o', repo: 'r', base: 'feature', head: 'main' },
+      (k, v) => {
+        outputs[k] = v;
+      },
+    );
     expect(ok).toBe(false);
     expect(outputs[Output.Conflicted]).toBe(false);
   });
@@ -63,7 +97,14 @@ describe('AutoUpdater.merge', () => {
     const mergeFn = vi.fn().mockRejectedValue(conflict);
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
     const outputs: Record<string, any> = {};
-    const ok = await updater.merge('o', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' }, (k, v) => { outputs[k] = v; });
+    const ok = await updater.merge(
+      'o',
+      7,
+      { owner: 'o', repo: 'r', base: 'feature', head: 'main' },
+      (k, v) => {
+        outputs[k] = v;
+      },
+    );
     expect(ok).toBe(false); // skip
     expect(outputs[Output.Conflicted]).toBe(true);
   });
@@ -74,12 +115,20 @@ describe('AutoUpdater.merge', () => {
     (cfg as any).retrySleep = () => 0;
     const updater = new AutoUpdater(cfg, {} as any);
     const err = new Error('flaky');
-    const mergeFn = vi.fn()
+    const mergeFn = vi
+      .fn()
       .mockRejectedValueOnce(err)
       .mockResolvedValue({ status: 200, data: { sha: 'xyz' } });
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
     const outputs: Record<string, any> = {};
-    const ok = await updater.merge('o', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' }, (k, v) => { outputs[k] = v; });
+    const ok = await updater.merge(
+      'o',
+      7,
+      { owner: 'o', repo: 'r', base: 'feature', head: 'main' },
+      (k, v) => {
+        outputs[k] = v;
+      },
+    );
     expect(ok).toBe(true);
     expect(mergeFn).toHaveBeenCalledTimes(2);
   });
@@ -93,7 +142,16 @@ describe('AutoUpdater.merge', () => {
     const mergeFn = vi.fn().mockRejectedValue(err);
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
     const outputs: Record<string, any> = {};
-    await expect(updater.merge('o', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' }, (k, v) => { outputs[k] = v; })).rejects.toThrow('always');
+    await expect(
+      updater.merge(
+        'o',
+        7,
+        { owner: 'o', repo: 'r', base: 'feature', head: 'main' },
+        (k, v) => {
+          outputs[k] = v;
+        },
+      ),
+    ).rejects.toThrow('always');
   });
 
   it('merge conflict with fail action throws', async () => {
@@ -104,7 +162,14 @@ describe('AutoUpdater.merge', () => {
     const conflict = new Error('Merge conflict');
     const mergeFn = vi.fn().mockRejectedValue(conflict);
     (updater as any).octokit = { rest: { repos: { merge: mergeFn } } };
-    await expect(updater.merge('o', 7, { owner: 'o', repo: 'r', base: 'feature', head: 'main' })).rejects.toThrow('Merge conflict');
+    await expect(
+      updater.merge('o', 7, {
+        owner: 'o',
+        repo: 'r',
+        base: 'feature',
+        head: 'main',
+      }),
+    ).rejects.toThrow('Merge conflict');
   });
 });
 

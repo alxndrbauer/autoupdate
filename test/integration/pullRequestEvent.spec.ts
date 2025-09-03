@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import '../setup';
 import { http } from 'msw';
 import { server } from '../setup';
 import { AutoUpdater } from '../../src/autoupdater';
@@ -22,15 +21,20 @@ describe('AutoUpdater integration (pull request path)', () => {
 
   it('skips when compare shows up-to-date', async () => {
     server.use(
-      http.get('https://api.github.com/repos/owner/repo/compare/h...b', () =>
-        new Response(JSON.stringify({ behind_by: 0 }), { status: 200 }),
+      http.get(
+        'https://api.github.com/repos/owner/repo/compare/h...b',
+        () => new Response(JSON.stringify({ behind_by: 0 }), { status: 200 }),
       ),
     );
     const updater = new AutoUpdater(cfg, {} as any);
     const pull: any = {
       merged: false,
       state: 'open',
-      head: { repo: { owner: { login: 'owner' }, name: 'repo' }, label: 'h', ref: 'h' },
+      head: {
+        repo: { owner: { login: 'owner' }, name: 'repo' },
+        label: 'h',
+        ref: 'h',
+      },
       base: { ref: 'b', label: 'b' },
       labels: [],
       draft: false,
