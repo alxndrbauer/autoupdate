@@ -12,7 +12,7 @@ module.exports = [
 						parserOptions: {
 							ecmaVersion: 2020,
 							sourceType: 'module',
-							project: ['./tsconfig.json', './tsconfig.tests.json'],
+						project: ['./tsconfig.json', './tsconfig.tests.json', './new-tests/tsconfig.new-tests.json'],
 						},
 				globals: {
 				// Jest globals
