@@ -1,0 +1,48 @@
+{
+  "name": "autoupdate-action",
+  "version": "1.0.0",
+  "description": "A GitHub Action that auto-updates PRs with changes from their base branch.",
+  "main": "src/autoupdater.ts",
+  "repository": "https://github.com/alxndrbauer/autoupdate",
+  "author": "Alexander Bauer <contact@alexander-bauer.de>",
+  "license": "MIT",
+  "packageManager": "npm@11.5.1",
+  "bin": {
+    "autoupdate-action": "bin/cli.js"
+  },
+  "scripts": {
+  "build": "ncc build bin/cli.ts -o dist --minify",
+  "typecheck": "tsc -p tsconfig.json --noEmit",
+  "prepare": "npm run build",
+    "lint": "eslint --ignore-pattern coverage --ignore-pattern dist . && prettier --list-different bin/*.ts src/*.ts test/**/*.ts",
+    "lint:fix": "eslint --fix .",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest --watch",
+    "test:unit": "vitest run --dir test/unit",
+    "test:integration": "vitest run --dir test/integration",
+    "test:type": "tsd"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1",
+    "@octokit/types": "^14.1.0",
+    "@octokit/webhooks": "^14.1.3",
+    "@octokit/webhooks-types": "^7.6.1",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+  "@vercel/ncc": "^0.38.3",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "fast-check": "^3.17.0",
+    "msw": "^2.3.0",
+    "prettier": "^3.6.2",
+    "tsd": "^0.30.0",
+    "vitest": "^3.2.4"
+  }
+}
